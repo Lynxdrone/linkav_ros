@@ -1,0 +1,10 @@
+<launch>
+    <arg name="rviz" default="false"/> 
+    <arg name="mesh_config" default="$(find linkav_ros)/config/mesh.yaml"/> 
+    
+    <!-- Scorp GS  -->
+    <node pkg="linkav_ros" type="gs_to_robot.py" name="gs_to_robot" output="screen">
+        <param name="host_ip" value="192.168.150.100" />
+        <param name="pub_topic" value="/scorp/signal" />
+    </node>
+</launch>
