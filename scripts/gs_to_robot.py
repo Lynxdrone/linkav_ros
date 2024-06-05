@@ -29,8 +29,8 @@ class GStoRobot:
                 if output:
                     self.secretkey = output.split('"')[3]
                 rospy.sleep(1)
-            print(self.secretkey)
-            # # Fermeture de la connexion
+            #print(self.secretkey)
+            # Fermeture de la connexion
             # self.tn.close()
         except:
             rospy.loginfo("\033[1;38;5;208m# GS Signal| Can't connect, shutting down\033[0m")
@@ -50,7 +50,7 @@ class GStoRobot:
                     #print_result(connect_list,system_info)
 
                     self.signal = float(connect_list[0]["signal"])
-                    print(self.signal)
+                    #print(self.signal)
                     self.pub.publish(self.signal)
 
                 rate.sleep()

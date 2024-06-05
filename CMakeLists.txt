@@ -160,7 +160,7 @@ include_directories(
 ## Mark executable scripts (Python etc.) for installation
 ## in contrast to setup.py, you can choose the destination
 catkin_install_python(PROGRAMS
-  scripts/telnet.py
+  scripts/telnet_example.py
   scripts/gs_to_robot.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
