@@ -8,7 +8,7 @@ import yaml
 from std_msgs.msg import Float32
 
 """
-This provide a simple signal measurement from an host station and a robot. It uses a telnet connection 
+This code provide a simple signal measurement from an host station and a robot. It uses a telnet connection 
 with the host tu evaluate the state of the mesh. The node needs three parameters to work propely : 
     - mesh_config (.yaml): The devices list and corresponding IP and MAC addresses.
     - host_ip (192.168.150.100) : IP addresse of the main station. By default, should be the addresse 
@@ -30,7 +30,6 @@ class GStoRobot:
         self.cfg_file = rospy.get_param("~mesh_config",)
         self.host = rospy.get_param('~host_ip', "192.168.150.100")
         self.robot_mac = get_mac(self.cfg_file,rospy.get_param('~robot_ip', "192.168.150.101"))
-        print(self.robot_mac)
         self.pub = rospy.Publisher(self.pub_topic, Float32,queue_size=10)
         
         auth = 'auth {"username":"admin","password":"admin"}'
@@ -64,7 +63,7 @@ class GStoRobot:
                 if json_config:
                     json_config = json_config.split("console :")[0]
                     connect_list, system_info = extract_data(json_config)
-                    # print_result(connect_list,system_info)
+                    #print_result(connect_list,system_info)
 
                     for dev in connect_list:
                         if dev["mac"] == self.robot_mac:

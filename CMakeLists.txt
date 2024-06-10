@@ -162,6 +162,8 @@ include_directories(
 catkin_install_python(PROGRAMS
   scripts/telnet_example.py
   scripts/gs_to_robot.py
+  scripts/module_to_mesh.py
+  scripts/mesh_to_csv.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )
 

@@ -138,8 +138,36 @@ The resulting signal level is given between -0dB to -94dB. We can considere a ap
 - `"pub_topic", default="/scorp/signal"` : Topic to publish the signal value.
 
 
-### Mesh monitor
-*In progress...*
+### Module to Mesh
+Module to mesh provides an overview of the mesh network from a module view. It read its connection with other device and publish the status of those connection to a general mesh_state topic.
+
+This module is meant to be running on all devices of the mesh connected to a module, or more generaly, one instance of the node is required per each module running in the mesh network.
+
+This node reads the name of the module given by the user and use the configuration file to find its corresponding IP and MAC addresse, then its scan it POV of the mesh network and publish the connections state.
+
+##### Publised topic
+* _/mesh_state ([std_msgs/String](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/String.html))
+
+    Connection state, discribed as : "host_ip;host_mac;dev_mac;expect;txbit,rxbit;multichannel;noise;ssid;signal".
+
+##### Node parameters
+- `"hostname"` : Host device name to connect.
+- `"mesh_config"` : Config file regrouping the mesh's devices name, IP and MAC addresses.
+
+### Mesh to CSV
+This node extract the /mesh_state topic to a CSV file so it can be easly used in test and research.
+
+##### Publised topic
+* _/mesh_state ([std_msgs/String](http://docs.ros.org/en/noetic/api/std_msgs/html/msg/String.html))
+
+    Connection state, discribed as : "host_ip;host_mac;dev_mac;expect;txbit,rxbit;multichannel;noise;ssid;signal".
+
+##### Node parameters
+- `"sub_topic"` : The mesh state topic to subscribe to.
+- `"output_folder"` : Output folder, default to /home/USER
+- `"output_name"` : Output file name
+- `"print"` : Print the row count or not
+
 
 
 

@@ -2,11 +2,25 @@
     <arg name="rviz" default="false"/> 
     <arg name="mesh_config_file" default="$(find linkav_ros)/config/mesh.yaml"/> 
     
-    <!-- Scorp GS  -->
+    <!-- GS to Module  -->
     <node pkg="linkav_ros" type="gs_to_robot.py" name="gs_to_robot" output="screen">
         <param name="host_ip" value="192.168.150.100" />
         <param name="robot_ip" value="192.168.150.101" />
         <param name="pub_topic" value="/linkav/signal" />
         <param name="mesh_config" value="$(arg mesh_config_file)" />
     </node>
+
+    <!-- Module to Mesh -->
+    <node pkg="linkav_ros" type="module_to_mesh.py" name="module_to_mesh_gs" output="screen">
+        <param name="hostname" value="GS" />
+        <param name="mesh_config" value="$(arg mesh_config_file)" />
+    </node>
+
+    <!-- Mesh to CSV  -->
+    <node pkg="linkav_ros" type="mesh_to_csv.py" name="mesh_to_csv" output="screen">
+        <param name="sub_topic" value="/mesh_state" />
+        <param name="output_name" value="test_CSV" />
+        <param name="print" value="True" />
+    </node>    
+
 </launch>
