@@ -69,7 +69,12 @@ The package provides a SerialToTCP class you can use to communicate in a serial 
   cd ~/catkin_ws/src
   git clone https://github.com/Lynxdrone/linkav_ros.git
 ~~~
-(_Dependencies may be updated, need a installation check_)
+
+Install python dependancies too : 
+~~~bash 
+  pip install telnetlib3
+  pip install pyyaml
+~~~
 #### Go to workspace and build 
 
 ~~~bash  
