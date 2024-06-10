@@ -3,21 +3,38 @@
 import rospy
 import telnetlib
 import json
+import yaml
 
 from std_msgs.msg import Float32
+
+"""
+This provide a simple signal measurement from an host station and a robot. It uses a telnet connection 
+with the host tu evaluate the state of the mesh. The node needs three parameters to work propely : 
+    - mesh_config (.yaml): The devices list and corresponding IP and MAC addresses.
+    - host_ip (192.168.150.100) : IP addresse of the main station. By default, should be the addresse 
+    of the module connected to the "code".
+    -robot_ip (192.168.150.100) : IP addresse of the robot you want to read the signal from.
+
+Published Topics:
+    - /signal (std_msgs/Float32): The signal level in dB.
+
+"""
 
 class GStoRobot:
     def __init__(self):
         # Init node
         rospy.init_node("gs_to_robot")
         rospy.loginfo("\033[1;38;5;26m# GS Signal | Setting up\033[0m")
+
+        self.pub_topic = rospy.get_param('~pub_topic', "/linkav/signal")
+        self.cfg_file = rospy.get_param("~mesh_config",)
         self.host = rospy.get_param('~host_ip', "192.168.150.100")
-        self.pub_topic = rospy.get_param('~pub_topic', "/scorp/signal")
+        self.robot_mac = get_mac(self.cfg_file,rospy.get_param('~robot_ip', "192.168.150.101"))
+        print(self.robot_mac)
         self.pub = rospy.Publisher(self.pub_topic, Float32,queue_size=10)
         
         auth = 'auth {"username":"admin","password":"admin"}'
         self.secretkey = ""
-
         self.signal = 0
         
         try:
@@ -47,11 +64,12 @@ class GStoRobot:
                 if json_config:
                     json_config = json_config.split("console :")[0]
                     connect_list, system_info = extract_data(json_config)
-                    #print_result(connect_list,system_info)
+                    # print_result(connect_list,system_info)
 
-                    self.signal = float(connect_list[0]["signal"])
-                    #print(self.signal)
-                    self.pub.publish(self.signal)
+                    for dev in connect_list:
+                        if dev["mac"] == self.robot_mac:
+                            self.signal = float(dev["signal"])
+                            self.pub.publish(self.signal)
 
                 rate.sleep()
             except:
@@ -68,6 +86,15 @@ def extract_data(json_string):
     # Extraire les informations du dictionnaire "systeminfo"
     system_info = data["systeminfo"]
     return connect_list, system_info
+
+def get_mac(cfg_file, device_ip):
+    with open(cfg_file) as f:
+        cfg = yaml.load(f, Loader=yaml.FullLoader)
+        for i in range(cfg['device_ip'].__len__()):
+            if cfg['device_ip'][i] == device_ip:
+                return cfg['device_mac'][i]
+            else:
+                pass
 
 def print_result(connect_list,system_info):
     print("Connect List:")

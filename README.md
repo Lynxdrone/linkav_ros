@@ -113,7 +113,7 @@ Telnet is a basic code that connect to a module and extract its connectlist and 
 More documentation is needed to explore all the data extract from the connect list and the proper way to use it. **In progress...**
 
 ##### Node parameters
-- `"host_ip", default="192.168.150.100"` : Host device ip to connect. Best pratic is to set this value to the GS module.
+- `"host_ip", default="192.168.150.100"` : Host device ip to connect with. Best pratic is to set this value to the GS module.
 
 ### GS to Robot
 Gs_to_robot provides a simple signal measurement functionnality.
@@ -128,6 +128,8 @@ The resulting signal level is given between -0dB to -94dB. We can considere a ap
 
 ##### Node parameters
 - `"host_ip", default="192.168.150.100"` : Host device ip to connect. Best pratic is to set this value to the GS module.
+- `"robot_ip", default="192.168.150.101"` : Robot ip to evaluate connection with.
+- `"mesh_config"` : Config file regrouping the mesh's devices name, IP and MAC addresses.
 - `"pub_topic", default="/scorp/signal"` : Topic to publish the signal value.
 
 

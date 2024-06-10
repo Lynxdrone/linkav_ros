@@ -1,10 +1,12 @@
 <launch>
     <arg name="rviz" default="false"/> 
-    <arg name="mesh_config" default="$(find linkav_ros)/config/mesh.yaml"/> 
+    <arg name="mesh_config_file" default="$(find linkav_ros)/config/mesh.yaml"/> 
     
     <!-- Scorp GS  -->
     <node pkg="linkav_ros" type="gs_to_robot.py" name="gs_to_robot" output="screen">
         <param name="host_ip" value="192.168.150.100" />
-        <param name="pub_topic" value="/scorp/signal" />
+        <param name="robot_ip" value="192.168.150.101" />
+        <param name="pub_topic" value="/linkav/signal" />
+        <param name="mesh_config" value="$(arg mesh_config_file)" />
     </node>
 </launch>
